@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.11"
 aiogram = "^3.2.0"
 python-dotenv = "^1.0.0"
+aioredis = "^2.0.1"
+ruff = "^0.4.10"
 
 
 [build-system]

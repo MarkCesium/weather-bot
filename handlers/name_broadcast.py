@@ -1,7 +1,6 @@
 from aiogram import Router
 from aiogram.types import Message
-import aiohttp
-from config import WEATHER_TOKEN, Params
+from config import Params
 from services import get_response_text, get_weather
 
 router: Router = Router()
