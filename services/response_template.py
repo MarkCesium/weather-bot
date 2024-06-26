@@ -1,4 +1,4 @@
-def get_response_text(
+async def get_response_text(
     description: str,
     temp: float,
     temp_feels_like: float,

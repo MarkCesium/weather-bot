@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 from aiogram import Bot, Dispatcher
-import aioredis
+
+# import aioredis
 
 
 class Config(BaseSettings):
@@ -16,4 +17,4 @@ config = Config()
 config.bot = Bot(config.BOT_TOKEN)
 config.dp = Dispatcher()
 
-redis = aioredis.from_url(config.redis_url)
+# redis = aioredis.from_url(config.redis_url)

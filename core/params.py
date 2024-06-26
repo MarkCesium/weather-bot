@@ -1,3 +1,6 @@
+from .config import config
+
+
 class Params:
     def __init__(self, city: str | None = None, location: tuple | None = None):
         if city is not None:
@@ -12,9 +15,9 @@ class Params:
             raise ValueError("No city or location provided")
         self.utits = "metric"
         self.lang = "en"
-        self.appid = WEATHER_TOKEN
+        self.appid = config.WEATHER_TOKEN
 
-    def __call__(self) -> dict:
+    async def __call__(self) -> dict:
         params: dict = {
             "units": self.utits,
             "lang": self.lang,
