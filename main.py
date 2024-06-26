@@ -1,5 +1,7 @@
 import asyncio
 from aiogram.methods import DeleteWebhook
+import logging
+import sys
 from core.config import config
 from handlers import routers
 
@@ -14,4 +16,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
