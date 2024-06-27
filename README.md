@@ -1,10 +1,18 @@
-# weather-bot
+# Weather Bot
+**A demonstration pet-project on aiogram**
 
-### Installation
+### Ho to use it?
+Type ```/start```
+Send ```City Name``` or pull down button ```Current location```
 
-1. Install poetry manager
-2. execute ```poetry install```
-3. Create .env file, set your BOT_TOKEN and WEATHER_TOKEN (from [openweathermap](https://openweathermap.org/api/))
-4. execute ```python main.py```
+### What's realized?
+Weather by city name
+Weather by Telegram location
+Saving weather data to cache in Redis
+Dockerizing the application (Dockerfile & docker-compose)
 
-### You can [try out](https://t.me/NadvorjeBot) my bot, if he is running
+### What are the plans?
+Add a button with the last location
+Add the ability to add favorite locations
+
+### You can [try out](https://t.me/NadvorjeBot) my bot, if it is running
