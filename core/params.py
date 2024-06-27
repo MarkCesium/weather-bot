@@ -32,5 +32,5 @@ class Params:
 
     async def cache_key(self) -> str:
         if self.q is not None:
-            return self.q
-        return f"{self.lat},{self.lon}"
+            return self.q.lower()
+        return f"{self.lat:.5f},{self.lon:.5f}"
