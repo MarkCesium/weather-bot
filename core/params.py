@@ -29,3 +29,8 @@ class Params:
             params.update({"lat": self.lat, "lon": self.lon})
 
         return params
+
+    async def cache_key(self) -> str:
+        if self.q is not None:
+            return self.q
+        return f"{self.lat},{self.lon}"
