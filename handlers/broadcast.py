@@ -1,7 +1,12 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from core import Params
-from services import get_response_text, get_weather
+from services import (
+    get_response_text,
+    get_weather,
+    get_weather_cache,
+    set_weather_cache,
+)
 
 router: Router = Router()
 
@@ -16,8 +21,14 @@ async def broadcast(message: Message):
         city: str = message.text
         params = Params(city=city)
 
-    status, data = await get_weather(params, message)
-    if not status:
+    cache: str | None = await get_weather_cache(params)
+
+    if cache is not None:
+        await message.answer(cache)
+        return
+
+    data = await get_weather(params)
+    if data is None:
         await message.answer(
             "Oops, something went wrong! Try again later or check the city name"
         )
@@ -30,4 +41,5 @@ async def broadcast(message: Message):
         data["wind"]["speed"],
         data["main"]["humidity"],
     )
-    await message.answer(text=text)
+    await set_weather_cache(params, text)
+    await message.answer(text)
