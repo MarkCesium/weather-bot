@@ -2,7 +2,7 @@ from .config import config
 
 
 class Params:
-    def __init__(self, city: str | None = None, location: tuple | None = None):
+    def __init__(self, city: str | None = None, location: tuple | list | None = None):
         if city is not None:
             self.q = city
             self.lat = None
