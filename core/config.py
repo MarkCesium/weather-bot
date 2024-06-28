@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.redis import RedisStorage
 
 from redis import asyncio as aioredis
 
@@ -16,7 +17,8 @@ class Config(BaseSettings):
 
 config = Config()
 config.bot = Bot(config.BOT_TOKEN)
-config.dp = Dispatcher()
+storage = RedisStorage.from_url(config.redis_url + "/1")
+config.dp = Dispatcher(storage=storage)
 
 
 @config.dp.startup()
