@@ -12,18 +12,24 @@ class Config(BaseSettings):
 
     BOT_TOKEN: str
     WEATHER_TOKEN: str
-    redis_url: str = "redis://localhost:6379"
+    redis_url: str
+    REDIS_PASSWORD: str
+    REDIS_USER: str
+    REDIS_USER_PASSWORD: str
+
+    class Config:
+        env_file = ".env"
 
 
 config = Config()
 config.bot = Bot(config.BOT_TOKEN)
-storage = RedisStorage.from_url(config.redis_url + "/1")
+storage = RedisStorage.from_url(config.redis_url + "/0")
 config.dp = Dispatcher(storage=storage)
 
 
 @config.dp.startup()
 async def on_startup():
-    config.redis = aioredis.from_url(config.redis_url)
+    config.redis = aioredis.from_url(config.redis_url + "/1")
 
 
 @config.dp.shutdown()
