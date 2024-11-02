@@ -7,4 +7,4 @@ async def get_weather_cache(params: Params) -> str | None:
 
 
 async def set_weather_cache(params: Params, data: str) -> None:
-    await config.redis.setex(await params.cache_key(), 300, data)
+    await config.redis.setex(await params.cache_key(), 600, data)
