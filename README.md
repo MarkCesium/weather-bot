@@ -10,6 +10,7 @@ Weather by city name
 Weather by Telegram location
 Saving weather data to cache in Redis
 Dockerizing the application (Dockerfile & docker-compose)
+Add CI/CD with GitHub Actions
 
 ### What are the plans?
 Add a button with the last location
