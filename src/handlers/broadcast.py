@@ -13,16 +13,7 @@ from keyboards.inline_keyboard import get_ikb
 router: Router = Router()
 
 
-@router.message(F.text | F.location)
-async def broadcast(message: Message, state: FSMContext):
-    if message.location is not None:
-        lon: float = message.location.longitude
-        lat: float = message.location.latitude
-        params = Params(location=(lat, lon))
-    else:
-        city: str = message.text
-        params = Params(city=city)
-
+async def get_broadcast(message: Message, state: FSMContext, params: Params):
     cache: str | None = await get_weather_cache(params)
 
     if cache is not None:
@@ -56,6 +47,19 @@ async def broadcast(message: Message, state: FSMContext):
     await message.answer(text, reply_markup=await get_ikb(state))
 
 
+@router.message(F.text | F.location)
+async def broadcast(message: Message, state: FSMContext):
+    if message.location is not None:
+        lon: float = message.location.longitude
+        lat: float = message.location.latitude
+        params = Params(location=(lat, lon))
+    else:
+        city: str = message.text
+        params = Params(city=city)
+
+    await get_broadcast(message, state, params)
+
+
 @router.callback_query(F.data)
 async def broadcast_callback(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.answer()
@@ -71,26 +75,6 @@ async def broadcast_callback(callback_query: CallbackQuery, state: FSMContext):
         await callback_query.message.answer("Server has no data about the last request")
         return
 
-    cache: str | None = await get_weather_cache(params)
-    if cache is not None:
-        await callback_query.message.answer(cache, reply_markup=await get_ikb(state))
-        return
+    await get_broadcast(callback_query.message, state, params)
 
-    data = await get_weather(params)
-    if data is None:
-        await callback_query.message.answer(
-            "Oops, something went wrong! Try again later or check the city name",
-            reply_markup=await get_ikb(state),
-        )
-        return
-
-    text = await get_response_text(
-        data["weather"][0]["description"],
-        data["main"]["temp"],
-        data["main"]["feels_like"],
-        data["wind"]["speed"],
-        data["main"]["humidity"],
-    )
-    await set_weather_cache(params, text)
-    await callback_query.message.answer(text, reply_markup=await get_ikb(state))
     await callback_query.message.delete()
