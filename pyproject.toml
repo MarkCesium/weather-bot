@@ -16,6 +16,8 @@ redis = "^5.0.7"
 sqlalchemy = "^2.0.36"
 asyncpg = "^0.30.0"
 alembic = "^1.14.0"
+celery = "^5.4.0"
+pyamqp = "^0.1.0.7"
 
 
 [build-system]

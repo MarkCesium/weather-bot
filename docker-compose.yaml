@@ -36,6 +36,34 @@ services:
     depends_on:
       - redis_db
 
+  rabbitmq:
+    networks: 
+      - weather-bot
+    container_name: weather_rabbitmq
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - ./var/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+  
+  celery:
+    networks: 
+        - weather-bot
+    container_name: weather_celery
+    build:
+      context: .
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+    command: ["poetry", "run", "celery", "--app=src.tasks.celery:celery", "worker", "-l", "INFO"]
+
 networks:
   weather-bot:
     driver: bridge

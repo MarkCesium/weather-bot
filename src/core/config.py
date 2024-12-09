@@ -12,10 +12,15 @@ class Config(BaseSettings):
 
     BOT_TOKEN: str
     WEATHER_TOKEN: str
-    redis_url: str
+
+    redis_url: str | None = None
     REDIS_PASSWORD: str
     REDIS_USER: str
     REDIS_USER_PASSWORD: str
+
+    rabbitmq_url: str | None = None
+    rabbitmq_user: str
+    rabbitmq_password: str
 
     class Config:
         env_file = ".env"
