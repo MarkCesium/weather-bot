@@ -1,18 +1,27 @@
-FROM python:3.12-slim
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 
-RUN pip install poetry==1.4.2
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --gid 999 --uid 999 --create-home nonroot
 
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
+WORKDIR /bot
 
-WORKDIR /project
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
 
-COPY pyproject.toml ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
 
-RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
+COPY . /bot
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
 
-COPY . .
+ENV PATH="/bot/.venv/bin:$PATH"
 
-CMD [ "poetry", "run", "python", "src/main.py" ]
+ENTRYPOINT []
+
+USER nonroot
+
+CMD [ "python", "-m", "src.main" ]
