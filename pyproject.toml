@@ -1,20 +1,18 @@
-[tool.poetry]
+[project]
 name = "weather-bot"
 version = "0.1.0"
 description = ""
-authors = ["MarkCesium <cesiummark01@gmail.com>"]
+authors = [{ name = "MarkCesium", email = "cesiummark01@gmail.com" }]
+requires-python = ">=3.13,<4"
 readme = "README.md"
+dependencies = [
+    "aiogram>=3.2.0,<4",
+    "pydantic-settings>=2.3.4,<3",
+    "redis>=5.0.7,<6",
+    "dishka>=1.7.2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-aiogram = "^3.2.0"
-python-dotenv = "^1.0.0"
-ruff = "^0.4.10"
-pydantic-settings = "^2.3.4"
-setuptools = "^70.1.1"
-redis = "^5.0.7"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "ruff>=0.14.13",
+]
