@@ -1,5 +1,5 @@
 import aiohttp
-from core import Params
+from src.core import Params
 
 
 async def get_weather(params: Params) -> dict | None:

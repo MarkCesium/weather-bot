@@ -1,8 +1,13 @@
-from .config import config
-
-
 class Params:
-    def __init__(self, city: str | None = None, location: tuple | list | None = None):
+    utits = "metric"
+    lang = "en"
+    q: str | None
+    lat: float | None
+    lon: float | None
+
+    def __init__(
+        self, appid: str, city: str | None = None, location: tuple | list | None = None
+    ):
         if city is not None:
             self.q = city
             self.lat = None
@@ -13,11 +18,9 @@ class Params:
             self.q = None
         else:
             raise ValueError("No city or location provided")
-        self.utits = "metric"
-        self.lang = "en"
-        self.appid = config.WEATHER_TOKEN
+        self.appid = appid
 
-    async def __call__(self) -> dict:
+    def __call__(self) -> dict:
         params: dict = {
             "units": self.utits,
             "lang": self.lang,
@@ -30,7 +33,7 @@ class Params:
 
         return params
 
-    async def cache_key(self) -> str:
+    def cache_key(self) -> str:
         if self.q is not None:
             return self.q.lower()
         return f"{self.lat:.5f},{self.lon:.5f}"

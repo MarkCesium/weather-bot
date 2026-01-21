@@ -1,10 +1,14 @@
-from core.config import config
-from core import Params
+from redis.asyncio import client
+
+from src.core import Params
 
 
-async def get_weather_cache(params: Params) -> str | None:
-    return await config.redis.get(await params.cache_key())
+class CacheService:
+    def __init__(self, client: client.Redis):
+        self.client = client
 
+    async def get_weather(self, params: Params) -> str | None:
+        return await self.client.get(params.cache_key())
 
-async def set_weather_cache(params: Params, data: str) -> None:
-    await config.redis.setex(await params.cache_key(), 600, data)
+    async def set_weather_cache(self, params: Params, data: str) -> None:
+        await self.client.setex(params.cache_key(), 600, data)

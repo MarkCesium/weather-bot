@@ -1,14 +1,14 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
-from core import Params
-from services import (
+from src.core import Params
+from src.services import (
     get_response_text,
     get_weather,
     get_weather_cache,
     set_weather_cache,
 )
-from keyboards.inline_keyboard import get_ikb
+from src.keyboards.inline_keyboard import get_ikb
 
 router: Router = Router()
 
@@ -71,7 +71,7 @@ async def broadcast_callback(callback_query: CallbackQuery, state: FSMContext):
         else:
             print("location")
             params = Params(location=state_data.get("last_location"))
-    except:
+    except Exception:
         await callback_query.message.answer("Server has no data about the last request")
         return
 

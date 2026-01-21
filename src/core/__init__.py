@@ -1,1 +1,3 @@
-from .params import Params
+from src.core.params import Params
+
+__all__ = ("Params",)
