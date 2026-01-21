@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
+
 from src.keyboards.main_keyboard import get_main_kb
 
 router: Router = Router()

@@ -1,6 +1,8 @@
 from collections.abc import AsyncIterable
+
 from dishka import Provider, Scope, provide
 from redis.asyncio import Redis
+
 from src.core.config import Settings
 
 

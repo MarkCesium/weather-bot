@@ -9,12 +9,24 @@ from dishka import make_async_container
 from dishka.integrations.aiogram import setup_dishka
 
 from src.core.config import Settings
-from src.dependencies import ConfigProvider, RedisProvider, CacheProvider
+from src.dependencies import (
+    CacheProvider,
+    ConfigProvider,
+    HttpProvider,
+    RedisProvider,
+    ServiceProvider,
+)
 from src.handlers import routers
 
 
 async def main():
-    container = make_async_container(ConfigProvider(), RedisProvider(), CacheProvider())
+    container = make_async_container(
+        ConfigProvider(),
+        RedisProvider(),
+        CacheProvider(),
+        HttpProvider(),
+        ServiceProvider(),
+    )
     settings = await container.get(Settings)
 
     logging.basicConfig(
@@ -25,7 +37,7 @@ async def main():
 
     bot = Bot(settings.telegram.token)
 
-    dp = Dispatcher(RedisStorage.from_url(settings.redis.url + "/0"))
+    dp = Dispatcher(storage=RedisStorage.from_url(settings.redis.url + "/0"))
     dp.include_routers(*routers)
 
     setup_dishka(container=container, router=dp, auto_inject=True)

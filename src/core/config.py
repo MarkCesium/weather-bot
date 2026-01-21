@@ -1,9 +1,9 @@
 import logging
 from pathlib import Path
 from typing import Literal
+
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
-
 
 BASE_DIR = Path(__file__).parent.parent.parent
 
@@ -24,6 +24,10 @@ class LoggingConfig(BaseModel):
         return logging.getLevelNamesMapping()[self.level.upper()]
 
 
+class RedisConfig(BaseModel):
+    url: str = Field(...)
+
+
 class TelegramConfig(BaseModel):
     token: str = Field(...)
 
@@ -32,15 +36,11 @@ class WeatherAPIConfig(BaseModel):
     token: str = Field(...)
 
 
-class RedisConfig(BaseModel):
-    url: str = Field(...)
-
-
 class Settings(BaseSettings):
     logging: LoggingConfig = Field(...)
+    redis: RedisConfig = Field(...)
     telegram: TelegramConfig = Field(...)
     weather: WeatherAPIConfig = Field(...)
-    redis: RedisConfig = Field(...)
 
     class Config:
         env_file = BASE_DIR / ".env"
