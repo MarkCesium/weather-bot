@@ -7,7 +7,6 @@ services:
     networks:
       - weather-bot
       - shared-network
-    depends_on: {}
 
 networks:
   weather-bot:

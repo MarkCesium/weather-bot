@@ -4,5 +4,7 @@ services:
       - "6379:6379"
 
   bot:
+    depends_on:
+      - redis
     volumes:
       - ./src:/bot/src

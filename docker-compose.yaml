@@ -9,15 +9,13 @@ services:
 
   bot:
     container_name: weather_bot
-    networks: 
+    networks:
         - weather-bot
     build:
       context: .
       dockerfile: ./Dockerfile
     env_file:
       - .env
-    depends_on:
-      - redis
 
 networks:
   weather-bot:
