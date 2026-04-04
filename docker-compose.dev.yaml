@@ -1,0 +1,8 @@
+services:
+  redis:
+    ports:
+      - "6379:6379"
+
+  bot:
+    volumes:
+      - ./src:/bot/src

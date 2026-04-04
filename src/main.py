@@ -37,7 +37,7 @@ async def main():
 
     bot = Bot(settings.telegram.token)
 
-    dp = Dispatcher(storage=RedisStorage.from_url(settings.redis.url + "/0"))
+    dp = Dispatcher(storage=RedisStorage.from_url(settings.redis.url + "/3"))
     dp.include_routers(*routers)
 
     setup_dishka(container=container, router=dp, auto_inject=True)

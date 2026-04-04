@@ -9,7 +9,7 @@ from src.core.config import Settings
 class RedisProvider(Provider):
     @provide(scope=Scope.APP)
     async def provide_redis(self, settings: Settings) -> AsyncIterable[Redis]:
-        client = Redis.from_url(settings.redis.url + "/1", decode_responses=True)
+        client = Redis.from_url(settings.redis.url + "/4", decode_responses=True)
 
         await client.ping()
 

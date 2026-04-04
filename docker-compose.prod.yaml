@@ -1,0 +1,17 @@
+services:
+  redis:
+    profiles: [disabled]
+
+  bot:
+    restart: unless-stopped
+    networks:
+      - weather-bot
+      - shared-network
+    depends_on: {}
+
+networks:
+  weather-bot:
+    driver: bridge
+  shared-network:
+    external: true
+    name: shared-network
